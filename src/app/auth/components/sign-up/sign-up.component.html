@@ -1,0 +1,38 @@
+<div class="auth">
+  <h1 class="welcome">Welcome!</h1>
+  <div class="wrapper">
+    <form
+      class="form"
+      [formGroup]="signUpForm"
+      (ngSubmit)="onSubmit()">
+      <ng-container *ngFor="let field of formConfig">
+        <mat-form-field
+          color="accent"
+          appearance="outline"
+          floatLabel="auto">
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            matInput
+            [type]="field.type"
+            [formControlName]="field.name" />
+
+        </mat-form-field>
+        <ng-container *ngIf="field.errorMessages">
+          <div class="error-wrapper" *ngFor="let error of field.errorMessages | keyvalue">
+            <mat-error *ngIf="getErrors([field.name])[error.key]">
+              {{ error.value }}
+            </mat-error>
+          </div>
+        </ng-container>
+      </ng-container>
+
+
+      <button
+        class="submit-btn"
+        type="submit"
+        [disabled]="signUpForm.invalid">
+        Sign up
+      </button>
+    </form>
+  </div>
+</div>
