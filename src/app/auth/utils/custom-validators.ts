@@ -21,8 +21,7 @@ export class CustomValidators {
         passwordControl.updateValueAndValidity();
       }
 
-      return (password1 === password2 && password2) ||
-        reverse || !password2
+      return (password1 === password2 && password2) || reverse || !password2
         ? null
         : { passwordMismatch: true };
     };
@@ -35,7 +34,8 @@ export class CustomValidators {
       };
       const candidates: string[] = [form.value.firstName, form.value.lastName];
       return candidates.some(
-        (word: string) => word && control.value.indexOf(word) >= 0,
+        (word: string) =>
+          word && control.value.toLowerCase().indexOf(word.toLowerCase()) >= 0,
       )
         ? err
         : null;
