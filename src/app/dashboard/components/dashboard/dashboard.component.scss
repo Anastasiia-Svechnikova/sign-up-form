@@ -1,0 +1,20 @@
+.wrapper {
+  width: 100vw;
+  height: 80vh;
+  display: grid;
+  grid-gap: var(--m-padding);
+  padding: var(--m-padding);
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card {
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--fade-background);
+  border-radius: var(--main-border-radius);
+  box-shadow: var( --main-box-shadow-inset);
+
+  &:last-of-type {
+    grid-column: span 3;
+  }
+}

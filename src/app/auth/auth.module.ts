@@ -4,11 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
-import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { AuthService } from './components/sign-up/sign-up.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SignUpService } from './services/sign-up.service';
+
 
 const routes = [
   {
@@ -27,7 +29,8 @@ const routes = [
     MatButtonModule,
     MatIconModule,
     MatInputModule,
+    MatSnackBarModule,
   ],
-  providers: [AuthService],
+  providers: [SignUpService],
 })
 export class AuthModule {}

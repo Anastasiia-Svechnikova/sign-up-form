@@ -1,52 +1,89 @@
-.auth {
-  width: 100vw;
-  height: 100vh;
-  padding-top: 50px;
-  background-color: #ffffff;
-  background-image: linear-gradient(
-      157deg,
-      rgba(255, 226, 45, 0.35) 47%,
-      rgba(0, 255, 66, 0.36) 100%
-  );
+.sign-up {
+  padding:calc(var(--s-padding) * 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.error-wrapper {
-  transform: translateY(-20px);
-}
-.welcome {
+.title {
   text-align: center;
-  margin-top: 50px;
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 30px;
+  color: var(--main-gray);
+  font-size: var(--title-font-size);
 }
-.wrapper {
-  width: 300px;
-  margin: 70px auto;
-  background-color: rgba(255, 255, 255, 0.24);
-  border-radius: 5px;
-  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.17),
-  0px 0px 17px 11px rgba(246, 244, 203, 0.2) inset;
 
-  @media screen and (min-width: 768px) {
-    width: 400px;
-  }
+.wrapper {
+  width: 400px;
+  max-width: 90%;
+  padding-top: var(--s-padding);
+  background-color: var(--fade-background);
+  border-radius: var(--main-border-radius);
+  box-shadow: var( --main-box-shadow-inset);
 }
+
 .form {
-  padding: 30px;
+  padding: var(--s-padding);
   display: flex;
   flex-direction: column;
 }
 
-.submit-btn {
-  height: 50px;
-  font-size: 18px;
+.error-wrapper {
+  transform: translateY(-20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  color: rgb(254, 253, 253);
-  background-color: rgba(14, 198, 63, 0.565);
+.eye-button {
+  color: var(--main-gray);
+}
+
+.password-hints {
+  list-style: none;
+  padding: 0 var(--xxs-padding);
+  margin: var(--xxs-padding) 0 var(--s-padding);
+
+  .hint-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    margin-bottom: var(--xxs-padding);
+    align-items: end;
+
+    p {
+      margin: 0;
+      color: var(--main-gray);
+    }
+
+    .hint-indicator {
+      background-color: gray;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      width: var(--xs-padding);
+      height: var(--xs-padding);
+      justify-content: center;
+
+      .mat-icon {
+        transform: scale(0.65) translateX(-2px);
+        color: var(--main-white);
+      }
+
+      &.success {
+        background-color: var(--success-green);
+      }
+    }
+  }
+}
+
+.submit-btn {
+  height: var(--m-padding);
+  color: var(--main-white);
+  background-color: var(--success-green);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--main-border-radius);
   cursor: pointer;
+  font-size: var(--sub-title-font-size);
+
   &[disabled] {
-    background-color: grey;
+    background-color: var(--main-gray);
   }
 }

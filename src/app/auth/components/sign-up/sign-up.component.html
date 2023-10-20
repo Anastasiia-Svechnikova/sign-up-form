@@ -1,6 +1,6 @@
-<div class="auth">
-  <h1 class="welcome">Welcome!</h1>
+<div class="sign-up">
   <div class="wrapper">
+    <h1 class="title">Sign up</h1>
     <form
       class="form"
       [formGroup]="signUpForm"
@@ -12,25 +12,66 @@
           floatLabel="auto">
           <mat-label>{{ field.label }}</mat-label>
           <input
+            #inputRef
             matInput
-            [type]="field.type"
+            [type]="
+              field.type !== 'password'
+                ? field.type
+                : isPasswordShown
+                ? 'text'
+                : 'password'
+            "
             [formControlName]="field.name" />
-
+          <button
+            *ngIf="
+              field.name === FormFieldName.password ||
+              field.name === FormFieldName.confirmPassword
+            "
+            type="button"
+            class="eye-button"
+            mat-icon-button
+            matSuffix
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="isPasswordShown"
+            (click)="togglePasswordShown()">
+            <mat-icon>{{
+              isPasswordShown ? 'visibility_off' : 'visibility'
+            }}</mat-icon>
+          </button>
         </mat-form-field>
         <ng-container *ngIf="field.errorMessages">
-          <div class="error-wrapper" *ngFor="let error of field.errorMessages | keyvalue">
-            <mat-error *ngIf="getErrors([field.name])[error.key]">
+          <div
+            class="error-wrapper"
+            *ngFor="let error of field.errorMessages | keyvalue">
+            <mat-error *ngIf="getErrors([field.name])?.[error.key]">
               {{ error.value }}
             </mat-error>
           </div>
         </ng-container>
+        <ng-container
+          *ngIf="field.name === FormFieldName.password && inputRef.value">
+          <ul class="password-hints">
+            <li
+              *ngFor="let passwordHint of passwordHintsConfig"
+              class="hint-item">
+              <div
+                class="hint-indicator"
+                [ngClass]="{ success: !getErrors([field.name])?.[passwordHint.error] }">
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Check icon"
+                  fontIcon="check"></mat-icon>
+              </div>
+              <p>{{ passwordHint.hint }}</p>
+            </li>
+          </ul>
+        </ng-container>
       </ng-container>
-
 
       <button
         class="submit-btn"
         type="submit"
-        [disabled]="signUpForm.invalid">
+        [disabled]="!signUpForm.valid">
         Sign up
       </button>
     </form>
