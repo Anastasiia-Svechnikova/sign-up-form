@@ -1,0 +1,29 @@
+:root {
+  --main-gray: #838282;
+  --main-white: #ffffff;
+
+  --error-red: #e15656;
+  --success-green: rgba(14, 198, 63, 0.565);
+
+  --title-font-size: 30px;
+  --sub-title-font-size: 18px;
+
+  --xxs-padding: 10px;
+  --xs-padding: 20px;
+  --s-padding: 30px;
+  --m-padding: 50px;
+
+  --main-border-radius: 5px;
+
+  --fade-background: rgba(255, 255, 255, 0.24);
+
+  --main-box-shadow-inset: 0px 0px 9px 0px rgba(0, 0, 0, 0.17),
+  0px 0px 17px 11px rgba(246, 244, 203, 0.2) inset;
+
+  --background-gradient: linear-gradient(
+    157deg,
+    rgba(255, 226, 45, 0.35) 47%,
+    rgba(0, 255, 66, 0.36) 100%
+);
+}
+
