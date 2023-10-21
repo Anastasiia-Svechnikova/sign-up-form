@@ -14,6 +14,7 @@
           <input
             #inputRef
             matInput
+            [name]="field.name"
             [type]="
               field.type !== 'password'
                 ? field.type
@@ -55,7 +56,7 @@
               *ngFor="let passwordHint of passwordHintsConfig"
               class="hint-item">
               <div
-                class="hint-indicator"
+                class="hint-indicator {{ passwordHint.error }}"
                 [ngClass]="{ success: !getErrors([field.name])?.[passwordHint.error] }">
                 <mat-icon
                   aria-hidden="false"

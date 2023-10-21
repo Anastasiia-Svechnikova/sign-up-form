@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       : null;
   }
 
-  private createForm(): void {
+  public createForm(): void {
     this.signUpForm = new FormGroup({});
     this.formConfig.forEach(({ name, validators, asyncValidators }) => {
       this.signUpForm.addControl(
