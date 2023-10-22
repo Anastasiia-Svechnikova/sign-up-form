@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignUpService } from './services/sign-up.service';
 
-
 const routes = [
   {
     path: '',

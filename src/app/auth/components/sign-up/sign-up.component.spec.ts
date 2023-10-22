@@ -4,10 +4,10 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { debounceTime, merge, of } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -56,7 +56,6 @@ describe('SignUpComponent', () => {
     });
 
     signUpService = TestBed.inject(SignUpService);
-
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -176,7 +175,6 @@ describe('SignUpComponent', () => {
       component.signUpForm.controls[FormFieldName.password].setValue('first');
       component.signUpForm.controls[FormFieldName.password].markAsTouched();
       component.signUpForm.controls[FormFieldName.firstName].markAsTouched();
-
       fixture.detectChanges();
 
       const containsNameHint: HTMLElement | null =
@@ -203,8 +201,8 @@ describe('SignUpComponent', () => {
       password: 'first',
       confirmPassword: 'second',
     });
-
     fixture.detectChanges();
+
     expect(component.signUpForm.valid).toBeFalsy();
   });
 
@@ -221,16 +219,16 @@ describe('SignUpComponent', () => {
     const submitButton: HTMLButtonElement | null =
       compiled.querySelector('.submit-btn');
     fixture.detectChanges();
-    expect(submitButton).toBeTruthy();
 
+    expect(submitButton).toBeTruthy();
     expect(submitButton?.disabled).toBeTruthy();
   });
 
   it('should submit the form successfully', () => {
     component.signUpForm.patchValue(mockSignUpData);
     spyOn(signUpService, 'signUp').and.returnValue(of(mockSignUpData));
-
     component.onSubmit();
+
     expect(signUpService.signUp).toHaveBeenCalledWith(mockSignUpData);
     expect(snackbar.open).toHaveBeenCalledWith('Welcome', 'Ok', snackbarConfig);
   });
@@ -238,7 +236,6 @@ describe('SignUpComponent', () => {
   it('should navigate to the dashboard page on successful sign up', fakeAsync(() => {
     component.signUpForm.patchValue(mockSignUpData);
     spyOn(signUpService, 'signUp').and.returnValue(of(true));
-
     component.onSubmit();
     tick(1000);
 
@@ -249,7 +246,6 @@ describe('SignUpComponent', () => {
   it('should show snackbar on form submission error', () => {
     component.signUpForm.patchValue(mockSignUpData);
     spyOn(signUpService, 'signUp').and.returnValue(of(false));
-
     component.onSubmit();
 
     expect(snackbar.open).toHaveBeenCalledWith(
@@ -262,6 +258,28 @@ describe('SignUpComponent', () => {
   it('should get form errors', () => {
     component.signUpForm.controls[FormFieldName.password].markAsTouched();
     const errors = component.getErrors([FormFieldName.password]);
+
     expect(errors).toEqual({ required: true });
+  });
+
+  it('should update password field validity on name changes', (done) => {
+    const nameChanges = merge(
+      component.signUpForm.controls[FormFieldName.firstName].valueChanges,
+      component.signUpForm.controls[FormFieldName.lastName].valueChanges,
+    ).pipe(debounceTime(400));
+    const passwordControl: AbstractControl | null = component.signUpForm.get(
+      FormFieldName.password,
+    );
+
+    if (passwordControl) {
+      spyOn(passwordControl, 'updateValueAndValidity').and.callThrough();
+      nameChanges.subscribe(() => {
+        expect(passwordControl?.updateValueAndValidity).toHaveBeenCalled();
+        done();
+      });
+      component.signUpForm.controls[FormFieldName.lastName].setValue(
+        'testName',
+      );
+    }
   });
 });

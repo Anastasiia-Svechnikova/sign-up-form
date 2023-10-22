@@ -74,7 +74,6 @@ describe('SignUpService', () => {
     service.checkEmailInUse(email).subscribe((res) => {
       result = res;
     });
-
     tick(500);
 
     expect(result).toBe(true);

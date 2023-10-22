@@ -7,18 +7,19 @@ import {
 } from '@angular/forms';
 import { CustomValidators } from './custom-validators';
 import { Observable, of } from 'rxjs';
+import { SignUpService } from '../services/sign-up.service';
 
 describe('CustomValidators', () => {
   let formGroup: FormGroup;
 
-  let authService: any;
+  let authService: SignUpService;
 
   beforeEach(() => {
     authService = {
       checkEmailInUse: (email: string) => {
         return of(email === 'inuse@example.com');
       },
-    };
+    } as SignUpService;
 
     formGroup = new FormGroup({
       firstName: new FormControl('John'),
@@ -69,8 +70,9 @@ describe('CustomValidators', () => {
       const control = formGroup.get('password');
       if (control) {
         control.setValue('John123');
-        const validatorFn = CustomValidators.containsName(formGroup);
-        const result = validatorFn(control);
+        const validatorFn: ValidatorFn =
+          CustomValidators.containsName(formGroup);
+        const result: ValidationErrors | null = validatorFn(control);
         expect(result).toEqual({ containsName: true });
       }
     });
@@ -79,8 +81,9 @@ describe('CustomValidators', () => {
       const control = formGroup.get('password');
       if (control) {
         control.setValue('Snow456');
-        const validatorFn = CustomValidators.containsName(formGroup);
-        const result = validatorFn(control);
+        const validatorFn: ValidatorFn =
+          CustomValidators.containsName(formGroup);
+        const result: ValidationErrors | null = validatorFn(control);
         expect(result).toEqual({ containsName: true });
       }
     });
@@ -89,8 +92,9 @@ describe('CustomValidators', () => {
       const control = formGroup.get('password');
       if (control) {
         control.setValue('Password123');
-        const validatorFn = CustomValidators.containsName(formGroup);
-        const result = validatorFn(control);
+        const validatorFn: ValidatorFn =
+          CustomValidators.containsName(formGroup);
+        const result: ValidationErrors | null = validatorFn(control);
         expect(result).toBeNull();
       }
     });
@@ -105,7 +109,7 @@ describe('CustomValidators', () => {
         control.setValue('notused@example.com');
 
         (validatorFn(control) as Observable<ValidationErrors | null>).subscribe(
-          (result) => {
+          (result: ValidationErrors | null) => {
             expect(result).toBeNull();
             done();
           },
@@ -121,7 +125,7 @@ describe('CustomValidators', () => {
         control.setValue('inuse@example.com');
 
         (validatorFn(control) as Observable<ValidationErrors | null>).subscribe(
-          (result) => {
+          (result: ValidationErrors | null) => {
             expect(result).toEqual({ emailInUse: true });
             done();
           },

@@ -23,7 +23,7 @@ describe('DashboardComponent', () => {
 
   it('should render four dashboard cards', () => {
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
+    const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('.card').length).toBe(4);
   });
 });
